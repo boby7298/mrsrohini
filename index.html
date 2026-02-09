@@ -9,7 +9,7 @@
 body{
     margin:0;
     height:100vh;
-    background:radial-gradient(circle at top,#3b2f2f,#000000);
+    background:radial-gradient(circle at top,#644117,#110702);
     font-family:Poppins,sans-serif;
     overflow:hidden;
 }
@@ -24,12 +24,8 @@ body{
     z-index:1;
     box-shadow:
         0 0 0 6px rgba(255,255,255,0.25),
-        0 0 25px rgba(139,69,19,0.9);
-    transition:
-        left 4s linear,
-        top 4s linear,
-        opacity .6s ease,
-        transform .6s ease;
+        0 0 25px rgba(100,65,23,0.9);
+    transition:left 4s linear, top 4s linear, opacity .6s, transform .6s;
 }
 
 /* ===== CENTER CTA ===== */
@@ -47,34 +43,34 @@ body{
     text-align:center;
 }
 
-.cta-wrap::before{
-    content:"";
-    position:absolute;
-    inset:-32px;
-    border-radius:50%;
-    border:2px dashed rgba(160,82,45,0.8);
-    animation:spin 8s linear infinite;
-}
-@keyframes spin{
-    from{transform:rotate(0)}
-    to{transform:rotate(360deg)}
-}
-
 .cta-btn{
     padding:30px 90px;
     font-size:45px;
     border:none;
     border-radius:50px;
     cursor:pointer;
-    background:linear-gradient(45deg,#5c4033,#000000);
-    color:#f5f5f5;
+    background:linear-gradient(45deg,#644117,#110702);
+    color:#fff;
     animation:pulse 1.5s infinite;
-    box-shadow:0 15px 40px rgba(0,0,0,0.7);
+    box-shadow:0 15px 40px rgba(0,0,0,0.8);
 }
 @keyframes pulse{
     0%{transform:scale(1)}
     50%{transform:scale(1.08)}
     100%{transform:scale(1)}
+}
+
+/* CANCEL BUTTON */
+.cancel-btn{
+    display:none;
+    margin-top:20px;
+    padding:15px 45px;
+    font-size:26px;
+    border-radius:40px;
+    border:2px solid #d2b48c;
+    background:#110702;
+    color:#d2b48c;
+    cursor:pointer;
 }
 
 /* ===== SURPRISE ===== */
@@ -93,7 +89,7 @@ body{
 .gift{
     width:420px;
     height:420px;
-    background:#5c4033;
+    background:#644117;
     border-radius:16px;
     position:relative;
     box-shadow:0 25px 60px rgba(0,0,0,0.8);
@@ -101,7 +97,7 @@ body{
 .lid{
     width:420px;
     height:88px;
-    background:#3b2f2f;
+    background:#110702;
     position:absolute;
     top:-136px;
     border-radius:16px 16px 0 0;
@@ -130,11 +126,42 @@ body{
     font-size:40px;
     margin-top:8px;
     transition:.6s;
-    color:#e6d3b1;
+    color:#f1e1c1;
 }
 .message small.fade-out{
     opacity:0;
     transform:translateY(10px);
+}
+
+/* POPUP */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99;
+}
+.popup-box{
+    background:#110702;
+    border:3px solid #644117;
+    padding:40px 50px;
+    border-radius:18px;
+    text-align:center;
+    color:#f5f5f5;
+    font-size:28px;
+    box-shadow:0 0 40px rgba(100,65,23,0.9);
+}
+.popup-box button{
+    margin-top:20px;
+    padding:12px 35px;
+    font-size:22px;
+    border:none;
+    border-radius:30px;
+    background:#644117;
+    color:#fff;
+    cursor:pointer;
 }
 
 /* CONFETTI */
@@ -148,22 +175,20 @@ canvas{
 
 <body>
 
-<!-- BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- TEDDY + FLOWER IMAGES -->
+<!-- TEDDY IMAGES -->
 <img class="corner" src="https://wallpapers.com/images/hd/teddy-bear-with-rose-hd-fp5vd2hs2rm8gn0g.jpg">
 <img class="corner" src="https://wallpapers.com/images/hd/cute-teddy-bear-with-flowers-6g6g5m2a0lqzzy6k.jpg">
 <img class="corner" src="https://getwallpapers.com/wallpaper/full/6/b/7/287353.jpg">
 <img class="corner" src="https://4.bp.blogspot.com/-3ETzcofuKNg/T3qIlZtThiI/AAAAAAAABsg/PjfJGRMlDWQ/s1600/Love+Teddy+Bear+Wallpapers+4.jpg">
-<img class="corner" src="https://wallpapers.com/images/hd/romantic-teddy-bear-with-rose-k8y7f8q8p9m7z9rp.jpg">
 
-<!-- CTA -->
 <div class="center">
   <div class="cta-wrap">
     <button class="cta-btn" id="ctaBtn">Tap for a Hug 🧸</button>
+    <button class="cancel-btn" id="cancelBtn">Cancel ❌</button>
 
     <div class="surprise" id="surprise">
       <div class="gift" id="giftBox">
@@ -178,34 +203,53 @@ canvas{
   </div>
 </div>
 
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    ❤️ You are already committed <br> with <b>Mr. Kumar</b> 🤎
+    <br>
+    <button onclick="closePopup()">Okay 🧸</button>
+  </div>
+</div>
+
 <canvas id="confetti"></canvas>
 
 <script>
 const herName = "Rohini Boby Kumar";
-
-/* RANDOM FLOATING */
 const imgs = document.querySelectorAll(".corner");
+const btn = document.getElementById("ctaBtn");
+const cancelBtn = document.getElementById("cancelBtn");
+const popup = document.getElementById("popup");
+const surprise = document.getElementById("surprise");
+const gift = document.getElementById("giftBox");
+const music = document.getElementById("bgMusic");
+
+/* FLOATING */
 function placeRandomly(){
   imgs.forEach(img=>{
-    const maxX = innerWidth - img.offsetWidth;
-    const maxY = innerHeight - img.offsetHeight;
-    img.style.left = Math.random()*maxX + "px";
-    img.style.top  = Math.random()*maxY + "px";
+    img.style.left = Math.random()*(innerWidth-img.offsetWidth)+"px";
+    img.style.top  = Math.random()*(innerHeight-img.offsetHeight)+"px";
   });
 }
 placeRandomly();
-let moveInterval = setInterval(placeRandomly, 5500);
+let moveInterval=setInterval(placeRandomly,5500);
 
-/* CLICK EVENT */
-const btn=document.getElementById("ctaBtn");
-const surprise=document.getElementById("surprise");
-const gift=document.getElementById("giftBox");
-const music=document.getElementById("bgMusic");
-
+/* CTA */
 btn.onclick=()=>{
   btn.style.display="none";
-  clearInterval(moveInterval);
+  cancelBtn.style.display="inline-block";
   music.play();
+};
+
+cancelBtn.onclick=()=>{
+  popup.style.display="flex";
+};
+
+/* CLOSE POPUP */
+function closePopup(){
+  popup.style.display="none";
+  cancelBtn.style.display="none";
+  clearInterval(moveInterval);
 
   imgs.forEach(img=>{
     img.style.opacity="0";
@@ -219,18 +263,15 @@ btn.onclick=()=>{
     startQuotes();
     startConfetti();
   },600);
-};
+}
 
-/* TEDDY QUOTES */
+/* QUOTES */
 const quotes=[
   `Happy Teddy Day, my love ${herName} 🧸🤎`,
   "This teddy hugs you when I can’t 🤍",
   "Soft teddy, strong love 🖤",
-  "You are my safest place 🤎",
-  "Forever yours, forever mine 🧸",
-  "My love for you is endless 🤍"
+  "Forever yours, forever mine 🤎"
 ];
-
 let q=0;
 const quoteEl=document.getElementById("teddyQuote");
 
@@ -251,9 +292,8 @@ const ctx=canvas.getContext("2d");
 canvas.width=innerWidth;
 canvas.height=innerHeight;
 let pieces=[];
-
 function startConfetti(){
- for(let i=0;i<180;i++){
+ for(let i=0;i<150;i++){
    pieces.push({
      x:Math.random()*canvas.width,
      y:Math.random()*canvas.height,
