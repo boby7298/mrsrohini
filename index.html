@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Birthday Special Surprise</title>
+<title>Teddy Day Special Surprise</title>
 
 <style>
 *{box-sizing:border-box}
 body{
     margin:0;
     height:100vh;
-    background:radial-gradient(circle at top,#ffe6f2,#ccefff);
+    background:radial-gradient(circle at top,#3b2f2f,#000000);
     font-family:Poppins,sans-serif;
     overflow:hidden;
 }
 
-/* ===== MOVING IMAGES ===== */
+/* ===== FLOATING TEDDY IMAGES ===== */
 .corner{
     position:absolute;
     width:160px;
@@ -23,8 +23,8 @@ body{
     object-fit:cover;
     z-index:1;
     box-shadow:
-        0 0 0 6px rgba(255,255,255,0.5),
-        0 0 25px rgba(255,0,120,0.6);
+        0 0 0 6px rgba(255,255,255,0.25),
+        0 0 25px rgba(139,69,19,0.9);
     transition:
         left 4s linear,
         top 4s linear,
@@ -52,7 +52,7 @@ body{
     position:absolute;
     inset:-32px;
     border-radius:50%;
-    border:2px dashed rgba(255,0,120,0.5);
+    border:2px dashed rgba(160,82,45,0.8);
     animation:spin 8s linear infinite;
 }
 @keyframes spin{
@@ -61,14 +61,15 @@ body{
 }
 
 .cta-btn{
-    padding: 30px 90px;
-    font-size: 45px;
+    padding:30px 90px;
+    font-size:45px;
     border:none;
     border-radius:50px;
     cursor:pointer;
-    background:linear-gradient(45deg,#ff0066,#ffb000);
-    color:#fff;
+    background:linear-gradient(45deg,#5c4033,#000000);
+    color:#f5f5f5;
     animation:pulse 1.5s infinite;
+    box-shadow:0 15px 40px rgba(0,0,0,0.7);
 }
 @keyframes pulse{
     0%{transform:scale(1)}
@@ -88,21 +89,22 @@ body{
     to{opacity:1;transform:translateY(0)}
 }
 
-/* GIFT */
+/* GIFT BOX */
 .gift{
     width:420px;
     height:420px;
-    background:#ff4d6d;
-    border-radius:14px;
+    background:#5c4033;
+    border-radius:16px;
     position:relative;
+    box-shadow:0 25px 60px rgba(0,0,0,0.8);
 }
 .lid{
-    width: 420px;
-    height: 88px;
-    background: #ff7a95;
-    position: absolute;
-    top: -136px;
-    border-radius:14px 14px 0 0;
+    width:420px;
+    height:88px;
+    background:#3b2f2f;
+    position:absolute;
+    top:-136px;
+    border-radius:16px 16px 0 0;
     transition:1s ease;
 }
 .open .lid{
@@ -114,13 +116,13 @@ body{
     margin-top:25px;
     font-size:45px;
     text-align:center;
-    color:#2f3542;
+    color:#f5f5f5;
 }
 .message span{
     display:block;
-    font-size: 50px;
+    font-size:50px;
     margin-bottom:6px;
-    color:#ff0066;
+    color:#d2b48c;
     font-weight:600;
 }
 .message small{
@@ -128,6 +130,7 @@ body{
     font-size:40px;
     margin-top:8px;
     transition:.6s;
+    color:#e6d3b1;
 }
 .message small.fade-out{
     opacity:0;
@@ -140,7 +143,6 @@ canvas{
     inset:0;
     pointer-events:none;
 }
-
 </style>
 </head>
 
@@ -151,35 +153,26 @@ canvas{
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ONLINE IMAGES -->
-<img class="corner" src="https://api.floraindia.com/upload/FJX3myNDWk1760156554964.webp">
-<img class="corner" src="https://api.floraindia.com/upload/lG1Y4GEAmj1761023120425.webp">
-<img class="corner" src="https://api.floraindia.com/upload/Q2pboxfkLx1764307257960.webp">
-<img class="corner" src="https://api.floraindia.com/upload/pLNVBqSYmN1760695075636.webp">
-
-<!-- LOCAL IMAGES -->
-<img class="corner" src="1.jpeg">
-<img class="corner" src="2.jpeg">
-<img class="corner" src="3.jpeg">
-<img class="corner" src="4.jpeg">
-<img class="corner" src="5.jpeg">
-<img class="corner" src="6.jpeg">
-<img class="corner" src="7.jpeg">
-<img class="corner" src="8.jpeg">
+<!-- TEDDY + FLOWER IMAGES -->
+<img class="corner" src="https://wallpapers.com/images/hd/teddy-bear-with-rose-hd-fp5vd2hs2rm8gn0g.jpg">
+<img class="corner" src="https://wallpapers.com/images/hd/cute-teddy-bear-with-flowers-6g6g5m2a0lqzzy6k.jpg">
+<img class="corner" src="https://getwallpapers.com/wallpaper/full/6/b/7/287353.jpg">
+<img class="corner" src="https://4.bp.blogspot.com/-3ETzcofuKNg/T3qIlZtThiI/AAAAAAAABsg/PjfJGRMlDWQ/s1600/Love+Teddy+Bear+Wallpapers+4.jpg">
+<img class="corner" src="https://wallpapers.com/images/hd/romantic-teddy-bear-with-rose-k8y7f8q8p9m7z9rp.jpg">
 
 <!-- CTA -->
 <div class="center">
   <div class="cta-wrap">
-    <button class="cta-btn" id="ctaBtn">Click here</button>
+    <button class="cta-btn" id="ctaBtn">Tap for a Hug 🧸</button>
 
     <div class="surprise" id="surprise">
       <div class="gift" id="giftBox">
         <div class="lid"></div>
       </div>
       <div class="message">
-        <span>For Rohini Boby Kumar 💖</span>
-        🎉 Happy Birthday 🎂
-        <small id="birthdayQuote">Happy Birthday, my love 💖</small>
+        <span>For Rohini Boby Kumar 🤎</span>
+        🧸 Happy Teddy Day 🧸
+        <small id="teddyQuote">This teddy carries my heart 🤍</small>
       </div>
     </div>
   </div>
@@ -188,12 +181,10 @@ canvas{
 <canvas id="confetti"></canvas>
 
 <script>
-/* NAME */
 const herName = "Rohini Boby Kumar";
 
-/* RANDOM MOVEMENT */
+/* RANDOM FLOATING */
 const imgs = document.querySelectorAll(".corner");
-
 function placeRandomly(){
   imgs.forEach(img=>{
     const maxX = innerWidth - img.offsetWidth;
@@ -205,7 +196,7 @@ function placeRandomly(){
 placeRandomly();
 let moveInterval = setInterval(placeRandomly, 5500);
 
-/* CTA CLICK */
+/* CLICK EVENT */
 const btn=document.getElementById("ctaBtn");
 const surprise=document.getElementById("surprise");
 const gift=document.getElementById("giftBox");
@@ -230,22 +221,18 @@ btn.onclick=()=>{
   },600);
 };
 
-/* QUOTES */
+/* TEDDY QUOTES */
 const quotes=[
-  `Happy Birthday, my love ${herName} 💖`,
-  "You make my world brighter every single day ✨",
-  "Every moment with you feels magical 💕",
-  "You are my happiness, my heart ❤️",
-  "Another year of loving you 💫",
-  "Your smile is my favorite gift 🌸",
-  "I fall in love with you every day 💖",
-  "You are my today and forever 💞",
-  "Life feels beautiful with you 💝",
-  "Happy Birthday, my queen 👑"
+  `Happy Teddy Day, my love ${herName} 🧸🤎`,
+  "This teddy hugs you when I can’t 🤍",
+  "Soft teddy, strong love 🖤",
+  "You are my safest place 🤎",
+  "Forever yours, forever mine 🧸",
+  "My love for you is endless 🤍"
 ];
 
 let q=0;
-const quoteEl=document.getElementById("birthdayQuote");
+const quoteEl=document.getElementById("teddyQuote");
 
 function startQuotes(){
  setInterval(()=>{
@@ -272,7 +259,7 @@ function startConfetti(){
      y:Math.random()*canvas.height,
      r:Math.random()*6+2,
      d:Math.random()*4+3,
-     c:`hsl(${Math.random()*360},100%,50%)`
+     c:`hsl(30,60%,${40+Math.random()*30}%)`
    });
  }
  animate();
