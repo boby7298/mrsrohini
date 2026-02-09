@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Special Surprise</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    height:100vh;
+    background:radial-gradient(circle at top,#ffe6f2,#ccefff);
+    font-family:Poppins,sans-serif;
+    overflow:hidden;
+}
+
+/* ===== MOVING IMAGES ===== */
+.corner{
+    position:absolute;
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    object-fit:cover;
+    z-index:1;
+    box-shadow:
+        0 0 0 6px rgba(255,255,255,0.5),
+        0 0 25px rgba(255,0,120,0.6);
+    transition:
+        left 4s linear,
+        top 4s linear,
+        opacity .6s ease,
+        transform .6s ease;
+}
+
+/* ===== CENTER CTA ===== */
+.center{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:5;
+}
+
+.cta-wrap{
+    position:relative;
+    text-align:center;
+}
+
+.cta-wrap::before{
+    content:"";
+    position:absolute;
+    inset:-32px;
+    border-radius:50%;
+    border:2px dashed rgba(255,0,120,0.5);
+    animation:spin 8s linear infinite;
+}
+@keyframes spin{
+    from{transform:rotate(0)}
+    to{transform:rotate(360deg)}
+}
+
+.cta-btn{
+    padding: 30px 90px;
+    font-size: 45px;
+    border:none;
+    border-radius:50px;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ff0066,#ffb000);
+    color:#fff;
+    animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+    100%{transform:scale(1)}
+}
+
+/* ===== SURPRISE ===== */
+.surprise{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    animation:fadeUp 1s ease forwards;
+}
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* GIFT */
+.gift{
+    width:420px;
+    height:420px;
+    background:#ff4d6d;
+    border-radius:14px;
+    position:relative;
+}
+.lid{
+    width: 420px;
+    height: 88px;
+    background: #ff7a95;
+    position: absolute;
+    top: -136px;
+    border-radius:14px 14px 0 0;
+    transition:1s ease;
+}
+.open .lid{
+    transform:rotate(-25deg) translateY(-65px);
+}
+
+/* MESSAGE */
+.message{
+    margin-top:25px;
+    font-size:45px;
+    text-align:center;
+    color:#2f3542;
+}
+.message span{
+    display:block;
+    font-size: 50px;
+    margin-bottom:6px;
+    color:#ff0066;
+    font-weight:600;
+}
+.message small{
+    display:block;
+    font-size:40px;
+    margin-top:8px;
+    transition:.6s;
+}
+.message small.fade-out{
+    opacity:0;
+    transform:translateY(10px);
+}
+
+/* CONFETTI */
+canvas{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ONLINE IMAGES -->
+<img class="corner" src="https://api.floraindia.com/upload/FJX3myNDWk1760156554964.webp">
+<img class="corner" src="https://api.floraindia.com/upload/lG1Y4GEAmj1761023120425.webp">
+<img class="corner" src="https://api.floraindia.com/upload/Q2pboxfkLx1764307257960.webp">
+<img class="corner" src="https://api.floraindia.com/upload/pLNVBqSYmN1760695075636.webp">
+
+<!-- LOCAL IMAGES -->
+<img class="corner" src="1.jpeg">
+<img class="corner" src="2.jpeg">
+<img class="corner" src="3.jpeg">
+<img class="corner" src="4.jpeg">
+<img class="corner" src="5.jpeg">
+<img class="corner" src="6.jpeg">
+<img class="corner" src="7.jpeg">
+<img class="corner" src="8.jpeg">
+
+<!-- CTA -->
+<div class="center">
+  <div class="cta-wrap">
+    <button class="cta-btn" id="ctaBtn">Click here</button>
+
+    <div class="surprise" id="surprise">
+      <div class="gift" id="giftBox">
+        <div class="lid"></div>
+      </div>
+      <div class="message">
+        <span>For Rohini Boby Kumar 💖</span>
+        🎉 Happy Birthday 🎂
+        <small id="birthdayQuote">Happy Birthday, my love 💖</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+/* NAME */
+const herName = "Rohini Boby Kumar";
+
+/* RANDOM MOVEMENT */
+const imgs = document.querySelectorAll(".corner");
+
+function placeRandomly(){
+  imgs.forEach(img=>{
+    const maxX = innerWidth - img.offsetWidth;
+    const maxY = innerHeight - img.offsetHeight;
+    img.style.left = Math.random()*maxX + "px";
+    img.style.top  = Math.random()*maxY + "px";
+  });
+}
+placeRandomly();
+let moveInterval = setInterval(placeRandomly, 5500);
+
+/* CTA CLICK */
+const btn=document.getElementById("ctaBtn");
+const surprise=document.getElementById("surprise");
+const gift=document.getElementById("giftBox");
+const music=document.getElementById("bgMusic");
+
+btn.onclick=()=>{
+  btn.style.display="none";
+  clearInterval(moveInterval);
+  music.play();
+
+  imgs.forEach(img=>{
+    img.style.opacity="0";
+    img.style.transform="scale(.5)";
+  });
+
+  setTimeout(()=>{
+    imgs.forEach(img=>img.remove());
+    surprise.style.display="flex";
+    setTimeout(()=>gift.classList.add("open"),300);
+    startQuotes();
+    startConfetti();
+  },600);
+};
+
+/* QUOTES */
+const quotes=[
+  `Happy Birthday, my love ${herName} 💖`,
+  "You make my world brighter every single day ✨",
+  "Every moment with you feels magical 💕",
+  "You are my happiness, my heart ❤️",
+  "Another year of loving you 💫",
+  "Your smile is my favorite gift 🌸",
+  "I fall in love with you every day 💖",
+  "You are my today and forever 💞",
+  "Life feels beautiful with you 💝",
+  "Happy Birthday, my queen 👑"
+];
+
+let q=0;
+const quoteEl=document.getElementById("birthdayQuote");
+
+function startQuotes(){
+ setInterval(()=>{
+   quoteEl.classList.add("fade-out");
+   setTimeout(()=>{
+     q=(q+1)%quotes.length;
+     quoteEl.textContent=quotes[q];
+     quoteEl.classList.remove("fade-out");
+   },600);
+ },3500);
+}
+
+/* CONFETTI */
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+let pieces=[];
+
+function startConfetti(){
+ for(let i=0;i<180;i++){
+   pieces.push({
+     x:Math.random()*canvas.width,
+     y:Math.random()*canvas.height,
+     r:Math.random()*6+2,
+     d:Math.random()*4+3,
+     c:`hsl(${Math.random()*360},100%,50%)`
+   });
+ }
+ animate();
+}
+function animate(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ pieces.forEach(p=>{
+   ctx.beginPath();
+   ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+   ctx.fillStyle=p.c;
+   ctx.fill();
+   p.y+=p.d;
+   if(p.y>canvas.height)p.y=0;
+ });
+ requestAnimationFrame(animate);
+}
+</script>
+
+</body>
+</html>
