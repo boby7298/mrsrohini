@@ -169,12 +169,13 @@ canvas{
 <img class="corner" src="https://getwallpapers.com/wallpaper/full/6/b/7/287353.jpg">
 
 <div class="center">
-  <div class="cta-wrap">
+  <div class="cta-wrap" id="ctaWrap">
 
-    <!-- TWO CTA ALWAYS VISIBLE -->
+    <!-- TWO CTA -->
     <button class="cta-btn" id="ctaBtn">Tap for a Hug 🧸</button>
     <button class="cancel-btn" id="cancelBtn">Cancel ❌</button>
 
+    <!-- SURPRISE -->
     <div class="surprise" id="surprise">
       <div class="gift" id="giftBox">
         <div class="lid"></div>
@@ -182,7 +183,7 @@ canvas{
       <div class="message">
         <span>For Rohini Boby Kumar 🤎</span>
         🧸 Happy Teddy Day 🧸
-        <small id="quote">This teddy carries my heart 🤍</small>
+        <small>This teddy carries my heart 🤍</small>
       </div>
     </div>
 
@@ -208,14 +209,20 @@ imgs.forEach(img=>{
   img.style.top=Math.random()*(innerHeight-160)+"px";
 });
 
-/* CANCEL = ONLY POPUP */
+/* CANCEL → ONLY POPUP */
 cancelBtn.onclick=()=>{
   popup.style.display="flex";
 };
 
-/* TAP FOR A HUG = FULL SURPRISE */
+/* TAP FOR A HUG */
 ctaBtn.onclick=()=>{
   document.getElementById("bgMusic").play();
+
+  // REMOVE BUTTON SECTION
+  document.getElementById("ctaWrap").querySelectorAll("button")
+    .forEach(btn=>btn.remove());
+
+  // FADE IMAGES
   imgs.forEach(img=>{
     img.style.opacity=0;
     img.style.transform="scale(.5)";
